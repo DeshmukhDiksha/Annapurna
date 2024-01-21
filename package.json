@@ -1,0 +1,29 @@
+{
+  "name": "annapurna",
+  "version": "1.0.0",
+  "description": "A food delivery application",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel run build",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diksha-2020/Annapurna-.git"
+  },
+  "author": "Diksha Deshmukh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diksha-2020/Annapurna-/issues"
+  },
+  "homepage": "https://github.com/diksha-2020/Annapurna-#readme",
+  "dependencies": {
+    "parcel": "^2.11.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "process": "^0.11.10"
+  }
+}
