@@ -1,6 +1,7 @@
 
 .body{
     overflow: hidden;
+    padding-top: 15px;
 }
 .app{
     margin-left: 5px;
@@ -105,4 +106,13 @@
     width: 144px;
     aspect-ratio: auto 144 / 180;
     height: 180px;
+}
+
+.filter{
+    display: flex;
+}
+.header-btn{
+    width: max-content;
+    margin-left: 5px;
+    margin-right: 5px;
 }

@@ -6,12 +6,13 @@ import FoodInMind from "./FoodInMind";
 
 
 
-
 const Body = () =>
 {
-    const [ topRatedRestraurants, setTopRatedRestraurantsList ] = useState( [] );
+    const [ restaurantsList, setRestraurantsList ] = useState([]);
+    const [ queriedRestraurants, setQueriedRestraurantsList ] = useState( [] );
     const [ swiggyAPIData, setSwiggyApiData ] = useState( null );
-
+    const [ searchText, setSearchText ] = useState( "" );
+ 
     useEffect( () => {
         fetchData();
     },[]);
@@ -26,26 +27,71 @@ const Body = () =>
         if ( parsedData )
         {
             const resList = parsedData.data?.cards[ 1 ]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
-            setTopRatedRestraurantsList( resList );
+            setRestraurantsList( resList );
         }
     };
 
     const filterRestaurants = () => {
-        const topRatedRestraurantsList = topRatedRestraurants.filter( ( restrarant ) => 
+        const topRatedRestraurantsList = restaurantsList.filter( ( restrarant ) => 
             restrarant.info.avgRating > 4.5
         );
-        setTopRatedRestraurantsList( topRatedRestraurantsList );
+        setQueriedRestraurantsList( topRatedRestraurantsList );
     };
+
+    const searchRestraurants = () =>
+    {
+        if ( searchText === "" )
+        {
+            setQueriedRestraurantsList([]);
+        } else
+        {
+            const searchedRestraurantsList = restaurantsList.filter( ( restraurant ) =>
+            {
+                const text = searchText.toLocaleLowerCase();
+                return restraurant?.info.name.toLocaleLowerCase().includes(text);
+            } );
+            setQueriedRestraurantsList( searchedRestraurantsList );
+        }
+    };
+
+    const renderRestraurantsList =  () =>
+    {
+        const restaurantList = queriedRestraurants.length === 0 ? restaurantsList : queriedRestraurants;
+        return ( 
+             restaurantList.length === 0  ? 
+                        <CardShimmerContainer />
+                        : restaurantList.map( ( restraurantData ) =>
+                            {
+                                return <ReasraurantCard
+                                    key={restraurantData?.info.id}
+                                    resData={restraurantData}
+                                />
+                            } )
+        )
+    }
 
     return(
         <div className='body'>
-            {/* <div className='search'> Search </div> */}
-            {/* <div className='filter'>
+            
+            <div className='filter'>
+                <div className='search'>
+                    <input type="text"
+                        className=""
+                        value={searchText}
+                        onChange={( event ) =>{
+                        setSearchText( event.target.value );
+                    }}/>
+                    <button
+                        className="header-btn"
+                        onClick={searchRestraurants}
+                    > Search
+                    </button>
+                </div>
                 <button
-                    className="filter-btn"
+                    className="header-btn filter-btn"
                     onClick={filterRestaurants}
                 > Top rated restaurants </button>
-            </div> */}
+            </div>
             <div className='res-container'> 
                 <div className="food-in-mind">
                     <FoodInMind
@@ -53,15 +99,7 @@ const Body = () =>
                     />
                 </div>
                 {
-                    topRatedRestraurants.length === 0 ?
-                        <CardShimmerContainer />
-                        : topRatedRestraurants.map( ( restrarantData ) =>
-                            {
-                                return <ReasraurantCard
-                                    key={restrarantData?.info.id}
-                                    resData={restrarantData}
-                                />
-                            } )
+                    renderRestraurantsList()
                 }
             </div>
         </div>
