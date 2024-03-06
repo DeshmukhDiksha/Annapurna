@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 import ReasraurantCard from "./RestrauntCard";
 import CardShimmerContainer from "./cardShimmerContainer";
@@ -12,27 +12,53 @@ const Body = () =>
     const [ queriedRestraurants, setQueriedRestraurantsList ] = useState( [] );
     const [ swiggyAPIData, setSwiggyApiData ] = useState( null );
     const [ searchText, setSearchText ] = useState( "" );
+
+    const resContainerRef = useRef(null);
  
     useEffect( () => {
         fetchData();
+        return ( () =>
+        {
+            removeScrollListner();
+        })
     },[]);
 
+    useEffect( () =>
+    {
+        searchRestraurants();
+    }, [ searchText ] );
 
     const fetchData = async () =>
     {
         const data = await fetch( "https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.559485&lng=73.9311784&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING" );
         const parsedData = await data.json();
         setSwiggyApiData( parsedData );
-        console.log( '✌️parsedData --->', parsedData );
         if ( parsedData )
         {
             const resList = parsedData.data?.cards[ 1 ]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
             setRestraurantsList( resList );
+            setQueriedRestraurantsList( resList );
+            attachScrollListner();
         }
     };
 
+    const attachScrollListner = () =>
+    {
+        // console.log( "^resContainerRef", resContainerRef.current );
+        // resContainerRef.current.addEventListner( "scroll", handleOnScroll );
+    };
+
+    const removeScrollListner = () =>
+    {
+        // resContainer.removeEventListner( "scroll", handleOnScroll );
+    };
+    const handleOnScroll = () =>
+    {
+        console.log( "Handle scroll!!" );
+    };
+
     const filterRestaurants = () => {
-        const topRatedRestraurantsList = restaurantsList.filter( ( restrarant ) => 
+        const topRatedRestraurantsList = queriedRestraurants.filter( ( restrarant ) => 
             restrarant.info.avgRating > 4.5
         );
         setQueriedRestraurantsList( topRatedRestraurantsList );
@@ -42,10 +68,11 @@ const Body = () =>
     {
         if ( searchText === "" )
         {
-            setQueriedRestraurantsList([]);
+            // TODO: Check for other filter and assign the list with filters.
+            setQueriedRestraurantsList(restaurantsList);
         } else
         {
-            const searchedRestraurantsList = restaurantsList.filter( ( restraurant ) =>
+            const searchedRestraurantsList = queriedRestraurants.filter( ( restraurant ) =>
             {
                 const text = searchText.toLocaleLowerCase();
                 return restraurant?.info.name.toLocaleLowerCase().includes(text);
@@ -56,11 +83,10 @@ const Body = () =>
 
     const renderRestraurantsList =  () =>
     {
-        const restaurantList = queriedRestraurants.length === 0 ? restaurantsList : queriedRestraurants;
         return ( 
-             restaurantList.length === 0  ? 
+             queriedRestraurants.length === 0  ? 
                         <CardShimmerContainer />
-                        : restaurantList.map( ( restraurantData ) =>
+                        : queriedRestraurants.map( ( restraurantData ) =>
                             {
                                 return <ReasraurantCard
                                     key={restraurantData?.info.id}
@@ -72,7 +98,6 @@ const Body = () =>
 
     return(
         <div className='body'>
-            
             <div className='filter'>
                 <div className='search'>
                     <input type="text"
@@ -92,7 +117,10 @@ const Body = () =>
                     onClick={filterRestaurants}
                 > Top rated restaurants </button>
             </div>
-            <div className='res-container'> 
+            <div
+                className='res-container'
+                ref={resContainerRef}
+            >  
                 <div className="food-in-mind">
                     <FoodInMind
                         foodList = {swiggyAPIData?.data?.cards[0]?.card?.card?.imageGridCards?.info}

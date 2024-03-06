@@ -1,38 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import {createBrowserRouter, RouterProvider, Outlet} from 'react-router-dom';
 
 
 import Header from "./components/Header";
 import Body from "./components/Body";
-
-
-
-/**
- * Header
- *  Logo
- *  Navbar
- * Body
- *  Search
- *  RestraurenatContainer 
- *  ReasraurantCard
- *      Img
- *      ResName,Rating, menus
- * Footer
- *  Copyright
- *  Links
- *  Address
- * 
- */
-
-
-
-
-
-
-
-// const restaurantsData = fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.559485&lng=73.9311784&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
-// console.log('✌️restaurantsData --->', restaurantsData);
-
+import About from './components/About';
+import Contact from './components/Contact';
+import Error from './components/Error';
 
 
 const AppLayout = () =>{
@@ -40,10 +15,40 @@ const AppLayout = () =>{
     return (
         <div className='app'>
             <Header/>
-            <Body/>
+            <Outlet/>
         </div>
     );
 }
 
+const appRouter = createBrowserRouter( [
+    {
+        path: "/",
+        element: <AppLayout />,
+        children: [
+            {
+                path: "/",
+                element: <Body/>,
+            },
+            {
+                path: "/about",
+                element: <About/>,
+            },
+            {
+                path: "/contact",
+                element: <Contact/>,
+            },
+        ],
+        errorElement: <Error/>
+    },
+    {
+        path: "/about",
+        element: <About/>,
+    },
+    {
+        path: "/contact",
+        element: <Contact/>,
+    },
+]);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<AppLayout/>)
+root.render(<RouterProvider router={appRouter}/>)
