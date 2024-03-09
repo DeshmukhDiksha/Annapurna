@@ -1,9 +1,12 @@
 import {RES_IMG_URI} from "../utility/constants";
+import { Link } from "react-router-dom";
 
 const ReasraurantCard = (props) =>{
-    const{name,costForTwo,cuisines,avgRating,sla, cloudinaryImageId} = props.resData?.info;
+    const {name, id, costForTwo, cuisines, avgRating, sla, cloudinaryImageId} = props.resData?.info;
+    
     return (
-        <div className='res-card' >
+        <Link key={id} to={`/restraurants/${ id }`} className="res-card-link">
+            <div className='res-card'>
             <div>
                 <img className="resLogo" src ={RES_IMG_URI + cloudinaryImageId} alt="resLogo"/>
             </div>
@@ -12,7 +15,8 @@ const ReasraurantCard = (props) =>{
             <h5>{cuisines.join(",")}</h5>
             <h5>Rating {avgRating} </h5>
             <h5>{sla.deliveryTime} min</h5>
-        </div>
+            </div>
+        </Link>
     )
 };
 

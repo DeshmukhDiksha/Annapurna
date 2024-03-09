@@ -4,6 +4,8 @@ import ReasraurantCard from "./RestrauntCard";
 import CardShimmerContainer from "./cardShimmerContainer";
 import FoodInMind from "./FoodInMind";
 
+import {RES_LIST_URI} from "../utility/constants";
+
 
 
 const Body = () =>
@@ -30,7 +32,7 @@ const Body = () =>
 
     const fetchData = async () =>
     {
-        const data = await fetch( "https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.559485&lng=73.9311784&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING" );
+        const data = await fetch(RES_LIST_URI );
         const parsedData = await data.json();
         setSwiggyApiData( parsedData );
         if ( parsedData )
@@ -54,7 +56,7 @@ const Body = () =>
     };
     const handleOnScroll = () =>
     {
-        console.log( "Handle scroll!!" );
+        // console.log( "Handle scroll!!" );
     };
 
     const filterRestaurants = () => {
