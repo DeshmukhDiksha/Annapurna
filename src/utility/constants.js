@@ -2,3 +2,13 @@ export const RES_LIST_URI = "https://www.swiggy.com/dapi/restaurants/list/v5?lat
 export const RES_IMG_URI = "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/";
 export const MIND_FOOD_IMG_URI = "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360";
 export const RES_MENU_URL = "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=18.559485&lng=73.9311784&restaurantId=";
+
+// Header constants
+
+export const HEADER_NAV_ITEMS = [
+    {navItemText: "Home", navItemRoute: "/"},
+    {navItemText: "About Us ", navItemRoute: "/about"},
+    {navItemText: "Contact Us", navItemRoute: "/contact"},
+    {navItemText: "Cart", navItemRoute: ""},
+
+];

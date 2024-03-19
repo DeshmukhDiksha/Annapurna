@@ -1,5 +1,7 @@
 import {useState} from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+
+import {HEADER_NAV_ITEMS} from "../utility/constants";
 
 const Header = () =>
 {
@@ -7,19 +9,19 @@ const Header = () =>
     const [ loginBtnText, setLoginBtnText ] = useState( "Login" );
 
     return(
-        <div className='header'>
-            <div className='logo-container'>
-                <img className="logo" src="App_logo" alt="App logo"/>
+        <div className='flex justify-between m-2 bg-green-200 shadow-md'>
+            <div className='flex'>
+                <img className="w-50 border-2"  src="utility/icons/app_icon.svg" alt="App_logo"></img> 
             </div>
-            <div className='nav-items'>
-                <ul>
-                    {/* Dont  use <a>tag to navaigate to particular page asit reloads page */}
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/about">About us</Link></li>
-                    <li><Link to="/contact">Contact us</Link></li>
-                    <li>Cart</li>
+            <div className='flex'>
+                <ul className="flex p-5 m-5">
+                    {HEADER_NAV_ITEMS.map( ( navItem,index ) =>
+                        <li key={ `hNavItem_${index}`} className="pl-5">
+                            <Link to={navItem.navItemRoute}>{navItem.navItemText}</Link>
+                        </li>
+                    )}
                     <button
-                        className="login-btn"
+                        className="pl-5 w-10"
                         onClick={() =>
                         {
                             loginBtnText === "Login" ? setLoginBtnText("Logout") : setLoginBtnText("Login");

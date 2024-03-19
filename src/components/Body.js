@@ -99,38 +99,40 @@ const Body = () =>
     }
 
     return(
-        <div className='body'>
-            <div className='filter'>
-                <div className='search'>
+        <div className='p-2'>
+            <div className='flex'>
+                <div className=''>
                     <input type="text"
-                        className=""
+                        className=" border border-solid border-green-300 focus-visible:border-green-300"
                         value={searchText}
                         onChange={( event ) =>{
                         setSearchText( event.target.value );
                     }}/>
                     <button
-                        className="header-btn"
+                        className="mx-5 px-5 h-15 w-25 bg-green-300 rounded-md"
                         onClick={searchRestraurants}
                     > Search
                     </button>
                 </div>
                 <button
-                    className="header-btn filter-btn"
+                    className="px-5 h-15 w-65 bg-gray-200 rounded-md"
                     onClick={filterRestaurants}
-                > Top rated restaurants </button>
+                > Top Rated Restaurants </button>
             </div>
             <div
-                className='res-container'
+                className='mt-5'
                 ref={resContainerRef}
             >  
-                <div className="food-in-mind">
+                <div className="border-t-[1px]">
                     <FoodInMind
                         foodList = {swiggyAPIData?.data?.cards[0]?.card?.card?.imageGridCards?.info}
                     />
                 </div>
-                {
-                    renderRestraurantsList()
-                }
+                <div className="flex flex-wrap m-5 overflow-x-hidden">
+                    {
+                        renderRestraurantsList()
+                    }
+                </div>
             </div>
         </div>
     )
