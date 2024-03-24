@@ -1,8 +1,9 @@
 import {useEffect, useRef, useState} from "react";
 
-import ReasraurantCard from "./RestrauntCard";
+import RestraurantCard from "./RestrauntCard";
 import CardShimmerContainer from "./cardShimmerContainer";
 import FoodInMind from "./FoodInMind";
+import { withOpenedLabel } from "./RestrauntCard";
 
 import {RES_LIST_URI} from "../utility/constants";
 
@@ -15,7 +16,9 @@ const Body = () =>
     const [ swiggyAPIData, setSwiggyApiData ] = useState( null );
     const [ searchText, setSearchText ] = useState( "" );
 
-    const resContainerRef = useRef(null);
+    const resContainerRef = useRef( null );
+    
+    const RestraurantCardOpened = withOpenedLabel(RestraurantCard)
  
     useEffect( () => {
         fetchData();
@@ -85,50 +88,55 @@ const Body = () =>
 
     const renderRestraurantsList =  () =>
     {
-        return ( 
-             queriedRestraurants.length === 0  ? 
-                        <CardShimmerContainer />
-                        : queriedRestraurants.map( ( restraurantData ) =>
+        return (
+            queriedRestraurants.length === 0 ?
+                <CardShimmerContainer />
+                : queriedRestraurants.map( ( restraurantData ) =>
                             {
-                                return <ReasraurantCard
-                                    key={restraurantData?.info.id}
-                                    resData={restraurantData}
-                                />
-                            } )
+                                return restraurantData.info.isOpen ?
+                        (<RestraurantCardOpened
+                            key={restraurantData?.info.id}
+                            resData={restraurantData}
+                        />)
+                        : (<RestraurantCard
+                            key={restraurantData?.info.id}
+                            resData={restraurantData}
+                        />)
+                            } )        
         )
     }
 
     return(
-        <div className='p-2'>
-            <div className='flex'>
+        <div className='tw-p-2'>
+            <div className='tw-flex'>
                 <div className=''>
                     <input type="text"
-                        className=" border border-solid border-green-300 focus-visible:border-green-300"
+                        className=" tw-border tw-border-solid tw-border-green-300 tw-focus-visible:tw-border-green-300"
                         value={searchText}
                         onChange={( event ) =>{
                         setSearchText( event.target.value );
                     }}/>
                     <button
-                        className="mx-5 px-5 h-15 w-25 bg-green-300 rounded-md"
+                        className="tw-mx-5 tw-px-5 tw-h-15 tw-w-25 tw-bg-green-300 tw-rounded-md"
                         onClick={searchRestraurants}
                     > Search
                     </button>
                 </div>
                 <button
-                    className="px-5 h-15 w-65 bg-gray-200 rounded-md"
+                    className="tw-px-5 tw-h-15 tw-w-65 tw-bg-gray-200 tw-rounded-md"
                     onClick={filterRestaurants}
                 > Top Rated Restaurants </button>
             </div>
             <div
-                className='mt-5'
+                className='tw-mt-5'
                 ref={resContainerRef}
             >  
-                <div className="border-t-[1px]">
+                <div className="tw-border-t-[1px]">
                     <FoodInMind
                         foodList = {swiggyAPIData?.data?.cards[0]?.card?.card?.imageGridCards?.info}
                     />
                 </div>
-                <div className="flex flex-wrap m-5 overflow-x-hidden">
+                <div className="tw-flex tw-flex-wrap tw-m-5 tw-overflow-x-hidden">
                     {
                         renderRestraurantsList()
                     }

@@ -9,19 +9,19 @@ const Header = () =>
     const [ loginBtnText, setLoginBtnText ] = useState( "Login" );
 
     return(
-        <div className='flex justify-between m-2 bg-green-200 shadow-md'>
-            <div className='flex'>
-                <img className="w-50 border-2"  src="utility/icons/app_icon.svg" alt="App_logo"></img> 
+        <div className='tw-flex tw-justify-between tw-m-2 tw-bg-green-200 tw-shadow-md'>
+            <div className='tw-flex'>
+                <img className="tw-w-50 tw-border-2"  src="utility/icons/app_icon.svg" alt="App_logo"></img> 
             </div>
-            <div className='flex'>
-                <ul className="flex p-5 m-5">
+            <div className='tw-flex'>
+                <ul className="tw-flex tw-p-5 tw-m-5">
                     {HEADER_NAV_ITEMS.map( ( navItem,index ) =>
-                        <li key={ `hNavItem_${index}`} className="pl-5">
+                        <li key={ `hNavItem_${index}`} className="tw-pl-5">
                             <Link to={navItem.navItemRoute}>{navItem.navItemText}</Link>
                         </li>
                     )}
                     <button
-                        className="pl-5 w-10"
+                        className="tw-pl-5 tw-w-10"
                         onClick={() =>
                         {
                             loginBtnText === "Login" ? setLoginBtnText("Logout") : setLoginBtnText("Login");

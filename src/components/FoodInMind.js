@@ -3,11 +3,11 @@ import {MIND_FOOD_IMG_URI} from "../utility/constants";
 const FoodInMind = ( props ) =>{
     const {foodList} = props;
     return (
-        <div className="flex flex-col">
+        <div className="tw-flex tw-flex-col">
             <h1>Whats on your mind ? </h1>
-            <div className="flex mx-24 py-5 flex-wrap">
+            <div className="tw-flex tw-mx-24 tw-py-5 tw-flex-wrap">
                 {foodList && foodList.length > 0 && foodList.map(
-                    ( food ) => <img key={food.id } className="h-24 w-24 p-15" src={MIND_FOOD_IMG_URI + "/" + food.imageId} />
+                    ( food ) => <img key={food.id } className="tw-h-24 tw-w-24 tw-p-15" src={MIND_FOOD_IMG_URI + "/" + food.imageId} />
                 )}
             </div>
         </div>
